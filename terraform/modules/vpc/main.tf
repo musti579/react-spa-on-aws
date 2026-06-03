@@ -28,3 +28,12 @@ resource "aws_subnet" "public_2" {
     Name = "public-subnet-2"
   }
 }
+
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "public-igw"
+  }
+}
