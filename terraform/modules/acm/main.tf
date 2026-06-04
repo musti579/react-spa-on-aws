@@ -10,7 +10,7 @@ resource "aws_acm_certificate" "cert" {
   lifecycle {
     create_before_destroy = true
   }
-  
+
 }
 resource "aws_route53_record" "cert_validation" {
   for_each = {
@@ -26,4 +26,9 @@ resource "aws_route53_record" "cert_validation" {
   type    = each.value.type
   records = [each.value.value]
   ttl     = 60
+}
+
+resource "aws_acm_certificate_validation" "cert" {
+  certificate_arn         = aws_acm_certificate.cert.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
