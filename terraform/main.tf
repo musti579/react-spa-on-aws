@@ -1,14 +1,8 @@
 module "vpc" {
   source = "./modules/vpc"
 }
-
-
-module "alb" {
-  source = "./modules/alb"
-
-  vpc_id            = module.vpc.aws_vpc
-  public_subnet_ids = module.vpc.public_subnet_ids
-  certificate_arn   = module.acm.certificate_arn
+module "iam" {
+  source = "./modules/iam"
 }
 
 module "ecs" {
@@ -22,6 +16,18 @@ module "ecs" {
   target_group_arn      = module.alb.target_group_arn
 }
 
-module "iam" {
-  source = "./modules/iam"
+module "alb" {
+  source = "./modules/alb"
+
+  vpc_id            = module.vpc.aws_vpc
+  public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn   = module.acm.certificate_arn
+}
+
+module "acm" {
+  source = "./modules/acm"
+
+  domain_name  = "tm.mustafaabukars.com"
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
 }
