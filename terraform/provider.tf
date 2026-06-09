@@ -14,7 +14,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket       = "terraform-state-mustafa"
+    bucket       = "terraform-state-musti"
     key          = "terraform.tfstate"
     region       = "eu-north-1"
     use_lockfile = true
