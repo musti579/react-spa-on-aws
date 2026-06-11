@@ -2,6 +2,11 @@ name: Deploy to ECS
 
 on:
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Image tag to deploy"
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -11,11 +16,25 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: eu-north-1
+      ECR_REPOSITORY: ecs-project
+      ECR_REGISTRY: 868256361535.dkr.ecr.eu-north-1.amazonaws.com
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::868256361535:role/ecs-project-github-actions
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Download current ECS task definition
         run: |
           aws ecs describe-task-definition \
-            --region eu-north-1 \
+            --region ${{ env.AWS_REGION }} \
             --task-definition ecs-app \
             --query taskDefinition \
             > task-definition.json
@@ -26,7 +45,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: threatmod-container
-          image: my-image
+          image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ inputs.image_tag }}
 
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
