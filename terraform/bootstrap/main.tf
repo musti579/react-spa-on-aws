@@ -76,13 +76,31 @@ resource "aws_iam_policy" "github_actions_ecr_push" {
           "ecr:PutImage",
           "ecr:BatchGetImage",
           "ecr:DescribeRepositories",
-          "ecr:DescribeImages",
+          "ecr:DescribeImages"
+        ]
+        Resource = data.aws_ecr_repository.ecs_project.arn
+      },
+      {
+        Effect = "Allow"
+        Action = [
           "ecs:DescribeTaskDefinition",
           "ecs:RegisterTaskDefinition",
           "ecs:UpdateService",
           "ecs:DescribeServices"
         ]
-        Resource = data.aws_ecr_repository.ecs_project.arn
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:PassRole"
+        ]
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "iam:PassedToService" = "ecs-tasks.amazonaws.com"
+          }
+        }
       }
     ]
   })
