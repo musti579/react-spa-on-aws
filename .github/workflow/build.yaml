@@ -3,6 +3,23 @@ name : push Dockeer image to ECR
 on: [push]
 branches: [main]
 
-permission:
+permissions:
   id-token: write
-  content: read
+  contents: read
+
+jobs: 
+  push-image:
+    runs-on: ubuntu-latest  
+
+steps:
+  - name: checkout code
+    uses: actions/checkout@v4
+
+  - name: Configure AWS credentials using OIDC
+    uses: aws-actions/configure-aws-credentials@v4
+    with:
+      role-to-assume: arn:aws:iam::868256361535:role/ecs-project-github-actions
+      aws-region: eu-north-1
+
+  - name: Test AWS access
+    run: aws sts get-caller-identity      
