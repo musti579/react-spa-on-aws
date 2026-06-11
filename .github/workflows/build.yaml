@@ -23,6 +23,13 @@ jobs:
           role-to-assume: arn:aws:iam::868256361535:role/ecs-project-github-actions
           aws-region: eu-north-1
 
+      - name: Scan image with Grype
+        uses: anchore/scan-action@v6
+        with:
+          image: ecs-project:${{ github.sha }}
+          fail-build: true
+          severity-cutoff: high  
+
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
