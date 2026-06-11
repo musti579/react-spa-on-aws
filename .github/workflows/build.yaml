@@ -23,5 +23,15 @@ jobs:
           role-to-assume: arn:aws:iam::868256361535:role/ecs-project-github-actions
           aws-region: eu-north-1
 
-      - name: Test AWS access
-        run: aws sts get-caller-identity
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push Docker image to ECR
+        env:
+          ECR_REGISTRY: 868256361535.dkr.ecr.eu-north-1.amazonaws.com
+          ECR_REPOSITORY: ecs-project
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG -f dockerfile .
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
