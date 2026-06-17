@@ -28,3 +28,16 @@ I use GitHub OIDC to allow GitHub Actions to assume an AWS IAM role using short-
 
 ![alt text](image-2.png)
 
+# Security and Guardrails
+
+I configured the Application Load Balancer with an ACM certificate and redirect HTTP traffic to HTTPS, ensuring all communication with the application is encrypted in transit.
+
+Access to the ECS tasks is controlled through security groups. The ECS security group only allows inbound traffic from the Application Load Balancer security group on the application port, preventing direct access to the containers from the internet.
+
+For authentication and automation, I use GitHub OpenID Connect (OIDC) instead of long-lived AWS access keys. The IAM trust policy restricts role assumption to workflows running from my GitHub repository, allowing GitHub Actions to obtain temporary AWS credentials at runtime while reducing the risk associated with storing permanent credentials.
+
+The application uses a dedicated ECS task execution role that allows tasks to pull container images from Amazon ECR and send logs to CloudWatch Logs. Infrastructure access is separated from application permissions by using different IAM roles for ECS and GitHub Actions.
+
+Terraform state is stored remotely in Amazon S3 with native state locking enabled, providing a central source of truth and preventing concurrent infrastructure modifications.
+
+
