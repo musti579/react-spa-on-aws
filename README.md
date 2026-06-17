@@ -67,13 +67,13 @@ terraform apply
 
 This provisions the VPC, Application Load Balancer, ECS cluster and service, IAM roles, Route 53 records, ACM certificate, CloudWatch log groups, and supporting resources.
 
-# Building and Pushing the Application
+## Building and Pushing the Application
 
 The CI workflow builds the Docker image and pushes it to Amazon ECR.
 
 When changes are pushed to the repository, GitHub Actions authenticates to AWS using OIDC, builds the container image, and stores it in the ECR repository.
 
-# Deploying to ECS
+## Deploying to ECS
 
 The deployment workflow retrieves the latest task definition, updates it with the selected container image, registers a new task definition revision, and deploys it to ECS.
 
