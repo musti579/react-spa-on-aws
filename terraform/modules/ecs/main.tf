@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "threatmod-container"
-      image     = "868256361535.dkr.ecr.eu-north-1.amazonaws.com/ecs-project:latest"
+      image     = var.container_image
       cpu       = 0
       essential = true
 
