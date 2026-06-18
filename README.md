@@ -23,6 +23,12 @@ Infrastructure is provisioned through Terraform modules for VPC, ALB, ECS, IAM, 
 
 ![Architecture Diagram](images/Architecture.png)
 
+
+#  Live Application
+
+
+![Live Application](images/LiveApplication.png)
+
 #  OIDC Trust Policy
 
 GitHub Actions authenticates to AWS using OpenID Connect (OIDC). The IAM trust policy restricts role assumption to the repository, allowing workflows to use temporary credentials instead of long-lived AWS access keys.
@@ -95,7 +101,7 @@ The Terraform workflow performs validation and security checks before generating
 
 
 ```text
-ecs-project/
+react-spa-on-aws/
 ├── .github/
 │   └── workflows/
 │       ├── build.yaml      # Build and push Docker image to ECR
