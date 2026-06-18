@@ -108,6 +108,7 @@ The Terraform workflow validates and plans infrastructure changes before deploym
 
 The tree below is a high-level overview of how I organised the project.
 
+```text
 ecs-project/
 ├── .github/
 │   └── workflows/
