@@ -105,26 +105,26 @@ react-spa-on-aws/
 ├── .github/
 │   └── workflows/
 │       ├── build.yaml      # Build and push Docker image to ECR
-│       ├── deploy.yaml     # Deploy new task definition to ECS
-│       └── terraform.yaml  # Terraform validation and planning
-├── build/                  # Application build files
-├── config/                 # Application configuration
-├── images/                 # README screenshots and architecture diagrams
-├── public/                 # Public application assets
-├── src/                    # React application source code
+│       ├── deploy.yaml     # Deploy updated task definition to ECS
+│       └── terraform.yaml  # Validate, scan, and plan Terraform changes
+├── build/
+├── config/
+├── images/
+├── public/
+├── src/
 ├── terraform/
-│   ├── bootstrap/          # One-time setup for S3 backend, ECR, OIDC and IAM roles
+│   ├── bootstrap/          # One-time setup: S3 backend, ECR, OIDC, IAM roles
 │   ├── modules/
-│   │   ├── acm/            # ACM certificate and DNS validation
-│   │   ├── alb/            # Application Load Balancer and target groups
-│   │   ├── ecs/            # ECS cluster, service and task definitions
-│   │   ├── iam/            # IAM roles and policies
-│   │   └── vpc/            # VPC, subnets and networking
-│   ├── main.tf             # Root Terraform configuration
-│   ├── output.tf           # Terraform outputs
-│   └── provider.tf         # AWS provider configuration
-├── Dockerfile              # Container image definition
-├── package.json            # Node.js dependencies and scripts
+│   │   ├── acm/
+│   │   ├── alb/
+│   │   ├── ecs/
+│   │   ├── iam/
+│   │   └── vpc/
+│   ├── main.tf
+│   ├── output.tf
+│   └── provider.tf
+├── Dockerfile
+├── package.json
 ├── README.md
 └── .gitignore
 ```
