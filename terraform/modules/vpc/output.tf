@@ -1,6 +1,7 @@
-output "vpc_id" {
+output "aws_vpc" {
   description = "VPC ID"
-  value       = aws_vpc.vpc.id
+  value = aws_vpc.vpc.id
+
 }
 
 
